@@ -8,19 +8,20 @@
 <script type="text/javascript">
   $(function(){
     $(".btn").on("click",function(){
-    var ref_id  = setInterval(function(){
-        $.ajax({
-          url:"<%=counter_create_path%>",
-          type:"get",
-          success:function(res){
-            if (res > 5){
-              console.log(res);
-              clearInterval(ref_id);
-              // return false;
-            }
-          }
+      $.ajax({
+        url:"<%= counter_index_path %>",
+        type:"POST"
+      });
+      myResponse();
+    });
+    myResponse = function(){
+      $.ajax({
+        url:"<%= counter_path(2)%>",
+        type:"GET"
         })
-      },1000)
-    })
-  })
+        .done(function(data){
+          $(".btn").html("<span>"+data+"</span>");
+        });
+    };
+  });
 </script>
