@@ -1,0 +1,33 @@
+<%=button_tag "Start Me",class:"btn",remote:true%>
+<span></span>
+
+<script type="text/javascript">
+  $(function(){
+    $(".btn").on("click",function(){
+      $(".btn").text("counting...");
+      $.ajax({
+        url:"<%= counter_index_path %>",
+        type:"POST"
+      });
+      myResponse();
+    });
+
+    myResponse = function(){
+      var count = 0;
+      var counting = setInterval(function(){
+        $.ajax({
+          url:"<%= counter_path(1)%>",
+          type:"GET"
+          })
+          .done(function(data){
+            count++;
+            if (count > 10){
+              $(".btn").text("I am done...")
+              clearInterval(counting);
+            }
+            $('span').html(data);
+        });
+      },1000)
+    };
+  });
+</script>
